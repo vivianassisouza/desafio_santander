@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busca de CEP</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <h1>Busca de CEP</h1>
+    <form id="cep-form">
+        <label for="cep">Digite o CEP:</label>
+        <input type="text" id="cep" name="cep" placeholder="12345-678" required>
+        <button type="submit">Buscar</button>
+    </form>
+    <div id="resultado">
+        <!-- O resultado será exibido aqui -->
+    </div>
+</div>
+
+<script>
+document.getElementById('cep-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Evita o reload da página ao enviar o formulário
+    const cep = document.getElementById('cep').value; // Obtém o valor do CEP digitado
+
+    fetch(`http://localhost:8080/cep/${cep}`)
+        .then(response => {
+            if (!response.ok) {
+                // Se a resposta não for ok (status não 2xx), exibe o erro
+                throw new Error('Erro ao buscar o CEP. Verifique o servidor.');
+            }
+            return response.json(); // Converte a resposta para JSON se for válida
+        })
+        .then(data => {
+            const resultadoDiv = document.getElementById('resultado');
+            resultadoDiv.innerHTML = ''; // Limpa o conteúdo anterior
+
+            // Verifica se há dados no retorno
+            if (data) {
+                const ul = document.createElement('ul'); // Cria uma lista
+                ul.classList.add('resultado-lista'); // Adiciona uma classe para estilização
+
+                // Campos específicos a serem exibidos
+                const campos = ['logradouro', 'bairro', 'localidade', 'uf', 'estado', 'regiao'];
+
+                // Filtra os dados e adiciona à lista
+                campos.forEach(campo => {
+                    if (data[campo]) {
+                        const li = document.createElement('li');
+                        li.textContent = `${campo.charAt(0).toUpperCase() + campo.slice(1)}: ${data[campo]}`;
+                        ul.appendChild(li);
+                    }
+                });
+                resultadoDiv.appendChild(ul); // Adiciona a lista ao resultado
+            } else {
+                resultadoDiv.innerHTML = '<p>CEP não encontrado.</p>';
+            }
+        })
+        .catch(error => {
+              // Inicializa a variável de mensagem de erro
+            let errorMessage = error.message;
+
+            // Verifica se o erro é o relacionado ao formato inválido de JSON
+            if (errorMessage.includes("Unexpected token 'F'")) {
+                errorMessage = 'Formato de CEP inválido';
+            }
+
+            // Verifica se o erro é o relacionado ao CEP inválido
+            if (errorMessage.includes("Unexpected token 'E'")) {
+                errorMessage = 'CEP incorreto / não existe';
+            }
+
+            // Exibe a mensagem de erro
+            document.getElementById('resultado').innerHTML =
+                `<p style="color: red;">Erro ao buscar o CEP: ${errorMessage}</p>`;
+        });
+});
+
+</script>
+
+</body>
+</html>
