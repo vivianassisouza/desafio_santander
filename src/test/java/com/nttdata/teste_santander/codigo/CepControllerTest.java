@@ -1,4 +1,4 @@
-package com.nttdata.teste_santander.api;
+package com.nttdata.teste_santander.codigo;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,5 +34,13 @@ class CepControllerTest {
         mockMvc.perform(get("/cep/123"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Formato de CEP inválido. Use o formato 12345-678."));
+    }
+
+    @Test
+    @DisplayName("Deve retornar mensagem de erro quando o CEP não for encontrado")
+    void testBuscarCepNaoEncontrado() throws Exception {
+        mockMvc.perform(get("/cep/99999-999"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Erro ao buscar o CEP: CEP não encontrado."));
     }
 }

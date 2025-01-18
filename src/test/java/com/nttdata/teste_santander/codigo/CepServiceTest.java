@@ -1,4 +1,4 @@
-package com.nttdata.teste_santander.api;
+package com.nttdata.teste_santander.codigo;
 
 import com.nttdata.teste_santander.core.CepService;
 import org.junit.jupiter.api.BeforeEach;
