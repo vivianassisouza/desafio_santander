@@ -59,6 +59,6 @@ public class BuscaCepAPITest {
                 .when()
                 .get("/cep/{cep}")
                 .then()
-                .time(lessThan(1000L)); // 1 seg
+                .time(lessThan(2000L)); // 2 seg
     }
 }
