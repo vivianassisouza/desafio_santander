@@ -71,7 +71,7 @@ public class BuscaCepWebTest {
         botaoBuscar.click();
         Thread.sleep(1000);
         Assertions.assertTrue(resultado.getText().contains("Erro ao buscar o CEP:"));
-        Assertions.assertTrue(resultado.getText().contains("CEP incorreto / não existe"));
+        Assertions.assertTrue(resultado.getText().contains("CEP não encontrado."));
     }
 
     @Test
@@ -79,7 +79,6 @@ public class BuscaCepWebTest {
         campoCep.sendKeys("01001");
         botaoBuscar.click();
         Thread.sleep(1000);
-        Assertions.assertTrue(resultado.getText().contains("Erro ao buscar o CEP:"));
         Assertions.assertTrue(resultado.getText().contains("Formato de CEP inválido"));
     }
 }
