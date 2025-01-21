@@ -49,6 +49,6 @@ class CepServiceTest {
         String resultado = cepService.buscarCep("00000-000");
 
         // Verificação
-        assertEquals("Erro ao buscar o CEP: Erro ao acessar o serviço", resultado);
+        assertEquals("Erro ao buscar o CEP: Erro ao acessar o serviço.", resultado);
     }
 }

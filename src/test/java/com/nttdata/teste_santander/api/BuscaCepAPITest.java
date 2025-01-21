@@ -37,7 +37,7 @@ public class BuscaCepAPITest {
                 .when()
                 .get("/cep/{cep}")
                 .then()
-                .statusCode(200)
+                .statusCode(400)
                 .body(containsString("Formato de CEP inválido"));
     }
 
@@ -48,7 +48,7 @@ public class BuscaCepAPITest {
                 .when()
                 .get("/cep/{cep}")
                 .then()
-                .statusCode(200)
+                .statusCode(404)
                 .body(containsString("CEP não encontrado"));
     }
 

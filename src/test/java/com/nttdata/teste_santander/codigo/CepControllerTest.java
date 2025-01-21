@@ -8,8 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -32,15 +31,15 @@ class CepControllerTest {
     void testBuscarCepInvalido() throws Exception {
         // Realiza uma requisição GET ao endpoint com CEP inválido
         mockMvc.perform(get("/cep/123"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Formato de CEP inválido. Use o formato 12345-678."));
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.erro").value("Formato de CEP inválido. Use o formato 12345-678."));
     }
 
     @Test
     @DisplayName("Deve retornar mensagem de erro quando o CEP não for encontrado")
     void testBuscarCepNaoEncontrado() throws Exception {
         mockMvc.perform(get("/cep/99999-999"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Erro ao buscar o CEP: CEP não encontrado."));
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.erro").value("Erro ao buscar o CEP: CEP não encontrado."));
     }
 }
