@@ -21,7 +21,7 @@ public class CepService {
             String url = "http://viacep.com.br/ws/" + cep + "/json/";
             String response = restTemplate.getForObject(url, String.class);
 
-            // tratar 'erro = true'
+            // Tratar 'erro = true' no corpo da resposta
             JsonNode jsonNode = objectMapper.readTree(response);
             if (jsonNode.has("erro") && jsonNode.get("erro").asBoolean()) {
                 return "Erro ao buscar o CEP: CEP não encontrado.";
