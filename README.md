@@ -11,6 +11,8 @@ Este projeto é uma solução para um teste técnico do Santander, que consiste 
     -   CEP inexistente (endereço não encontrado).
     -   CEP não preenchido (não retorna resultado).
 -   Automatizar testes para garantir a confiabilidade da aplicação.
+-   Criar desenho do projeto para apresentação (src/main/resources/uml_diagram.png).
+-   Criar collection para validação no Postman (src/main/resources/postman_collection.json).
 
 ## **Principais Tecnologias Utilizadas**
 
@@ -33,6 +35,7 @@ Certifique-se de ter as seguintes ferramentas instaladas no seu ambiente:
 2.  **Maven** (verifique com `mvn -version`).
 3.  **Chrome*** (não é mais necessário possuir um 'Chromedriver' separado desde o Selenium 4, pois ele é gerenciado automaticamente).
 4.  Conexão com a internet para acessar a API pública do ViaCEP.
+5.  Postman para importar a collection que contém os GETs para a API.
 
 ---
 
