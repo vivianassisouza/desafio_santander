@@ -1,9 +1,36 @@
 {
   "info": {
-    "name": "Teste de API - Consulta CEP",
-    "description": "Collection para testar os diferentes cenários da API de consulta de CEP.",
+    "name": "Teste de API - Busca CEP",
+    "description": "Collection para testar a API 'Busca CEP'.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
+  "variable": [
+    {
+      "key": "cepValido",
+      "value": "01001-000",
+      "type": "string"
+    },
+    {
+      "key": "cepInvalido",
+      "value": "123",
+      "type": "string"
+    },
+    {
+      "key": "cepInexistente",
+      "value": "00000-000",
+      "type": "string"
+    },
+    {
+      "key": "host",
+      "value": "localhost",
+      "type": "string"
+    },
+    {
+      "key": "port",
+      "value": "8080",
+      "type": "string"
+    }
+  ],
   "item": [
     {
       "name": "Consulta com CEP válido",
@@ -11,12 +38,12 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/cep/01001-000",
           "protocol": "http",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["cep", "01001-000"]
-        }
+          "host": ["{{host}}"],
+          "port": "{{port}}",
+          "path": ["cep", "{{cepValido}}"]
+        },
+        "description": "Dado: uso um CEP válido\nQuando: envio a requisição para a API\nEntão: devo receber status 200 e um endereço válido"
       },
       "response": [],
       "event": [
@@ -26,7 +53,8 @@
             "exec": [
               "pm.test('Status code é 200', function () { pm.response.to.have.status(200); });",
               "pm.test('Logradouro correto', function () { pm.expect(pm.response.json().logradouro).to.eql('Praça da Sé'); });",
-              "pm.test('UF correta', function () { pm.expect(pm.response.json().uf).to.eql('SP'); });"
+              "pm.test('UF correta', function () { pm.expect(pm.response.json().uf).to.eql('SP');});",
+              "pm.test('Tempo de resposta abaixo de 500ms', function () { pm.expect(pm.response.responseTime).to.be.below(500);});"
             ]
           }
         }
@@ -38,12 +66,12 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/cep/123",
           "protocol": "http",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["cep", "123"]
-        }
+          "host": ["{{host}}"],
+          "port": "{{port}}",
+          "path": ["cep", "{{cepInvalido}}"]
+        },
+        "description": "Dado: uso um CEP inválido\nQuando: envio a requisição para a API\nEntão: devo receber status 400 e um erro sobre o formato inválido"
       },
       "response": [],
       "event": [
@@ -52,7 +80,8 @@
           "script": {
             "exec": [
               "pm.test('Status code é 400 para CEP inválido', function () { pm.response.to.have.status(400); });",
-              "pm.test('Mensagem de erro para CEP inválido', function () { pm.expect(pm.response.text()).to.include('Formato de CEP inválido. Use o formato 12345-678.'); });"
+              "pm.test('Mensagem de erro para \"Formato de CEP inválido.\"', function () { pm.expect(pm.response.text()).to.include('Formato de CEP inválido. Use o formato 12345-678.'); });",
+              "pm.test('Tempo de resposta abaixo de 200ms', function () { pm.expect(pm.response.responseTime).to.be.below(200);});"
             ]
           }
         }
@@ -64,12 +93,12 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/cep/00000-000",
           "protocol": "http",
-          "host": ["localhost"],
-          "port": "8080",
-          "path": ["cep", "00000-000"]
-        }
+          "host": ["{{host}}"],
+          "port": "{{port}}",
+          "path": ["cep", "{{cepInexistente}}"]
+        },
+        "description": "Dado: uso um CEP inexistente\nQuando: envio a requisição para a API\nEntão: devo receber status 404 e um erro de CEP não encontrado"
       },
       "response": [],
       "event": [
@@ -78,23 +107,25 @@
           "script": {
             "exec": [
               "pm.test('Status code é 404 para CEP inexistente', function () { pm.response.to.have.status(404); });",
-              "pm.test('Mensagem de erro para CEP inexistente', function () { pm.expect(pm.response.text()).to.include('Erro ao buscar o CEP: CEP não encontrado.'); });"
+              "pm.test('Mensagem de erro \"CEP não encontrado.\"', function () { pm.expect(pm.response.text()).to.include('Erro ao buscar o CEP: CEP não encontrado.'); });",
+              "pm.test('Tempo de resposta abaixo de 200ms', function () { pm.expect(pm.response.responseTime).to.be.below(200);});"
             ]
           }
         }
       ]
     },
     {
-      "name": "Consulta da página web",
+      "name": "Consulta da integração com o front (página web)",
       "request": {
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "http://localhost:8080/",
           "protocol": "http",
-          "host": ["localhost"],
-          "port": "8080"
-        }
+          "host": ["{{host}}"],
+          "port": "{{port}}",
+          "path": ["/"]
+        },
+        "description": "Dado: uso do endpoint base\nQuando: envio a requisição para a API\nEntão: devo receber status 200 e um documento HTML válido"
       },
       "response": [],
       "event": [
@@ -103,7 +134,8 @@
           "script": {
             "exec": [
               "pm.test('Status code é 200', function () { pm.response.to.have.status(200); });",
-              "pm.test('Corpo da resposta contém <!DOCTYPE html>', function () { pm.expect(pm.response.text()).to.contains('<!DOCTYPE html>'); });"
+              "pm.test('Corpo da resposta contém <!DOCTYPE html>', function () { pm.expect(pm.response.text()).to.contains('<!DOCTYPE html>'); });",
+              "pm.test('Tempo de resposta abaixo de 200ms', function () { pm.expect(pm.response.responseTime).to.be.below(200);});"
             ]
           }
         }
