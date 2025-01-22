@@ -1,0 +1,113 @@
+{
+  "info": {
+    "name": "Teste de API - Consulta CEP",
+    "description": "Collection para testar os diferentes cenários da API de consulta de CEP.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Consulta com CEP válido",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/cep/01001-000",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["cep", "01001-000"]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code é 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Logradouro correto', function () { pm.expect(pm.response.json().logradouro).to.eql('Praça da Sé'); });",
+              "pm.test('UF correta', function () { pm.expect(pm.response.json().uf).to.eql('SP'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Consulta com CEP inválido",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/cep/123",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["cep", "123"]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code é 400 para CEP inválido', function () { pm.response.to.have.status(400); });",
+              "pm.test('Mensagem de erro para CEP inválido', function () { pm.expect(pm.response.text()).to.include('Formato de CEP inválido. Use o formato 12345-678.'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Consulta com CEP inexistente",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/cep/00000-000",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["cep", "00000-000"]
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code é 404 para CEP inexistente', function () { pm.response.to.have.status(404); });",
+              "pm.test('Mensagem de erro para CEP inexistente', function () { pm.expect(pm.response.text()).to.include('Erro ao buscar o CEP: CEP não encontrado.'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Consulta da página web",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080"
+        }
+      },
+      "response": [],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status code é 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Corpo da resposta contém <!DOCTYPE html>', function () { pm.expect(pm.response.text()).to.contains('<!DOCTYPE html>'); });"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
