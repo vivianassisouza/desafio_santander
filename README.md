@@ -108,7 +108,7 @@ Utilizando **JUnit** e **Spring Test**, validar os seguintes cenários:
 Testar diferentes cenários com o uso do **Rest Assured**, como:
 
 - **CEP válido**: retorna endereço completo.
-- **CEP inválido**: retorna erro.
+- **CEP inválido**: retorna mensagem "Formato de CEP inválido".
 - **CEP inexistente**: retorna mensagem "Endereço não encontrado".
   
 ### **Testes Web**
