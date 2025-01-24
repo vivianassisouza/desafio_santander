@@ -73,9 +73,25 @@ http://localhost:8080/cep/{{cepdesejado}}.
 
 ## **Como Executar os Testes**
 
+Para rodar todos os testes:
 ```bash
 mvn test
 ```
+
+Para rodar testes apenas do código de negócio:
+```bash
+mvn -Dtest=com/nttdata/teste_santander/codigo/* test
+```text
+
+Para rodar testes apenas de API:
+```bash
+mvn -Dtest=com/nttdata/teste_santander/api/*
+```text
+
+Para rodar testes apenas do front-end:
+```bash
+mvn -Dtest=com/nttdata/teste_santander/web/* test
+```text
 ---
 
 ## **Pontos de Validação**
