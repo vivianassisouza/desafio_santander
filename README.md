@@ -124,6 +124,7 @@ Garantir que a interface responde corretamente aos diferentes cenários de entra
 ## **Estrutura do Projeto**
 
 - **`src/main/java`**: Código fonte da aplicação.
+- **`src/main/resources`**: Arquivos do projeto, como o **Desenho UML**, a **Collection do Postman** e o **HTML e CSS** da interface web.
 - **`src/test/java`**: Testes automatizados utilizando **JUnit**, **Selenium**, **Rest Assured** e **Spring Test**.
 - **`pom.xml`**: Configuração do Maven e dependências do projeto.
 
