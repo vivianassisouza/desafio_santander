@@ -1,7 +1,7 @@
 {
   "info": {
-    "name": "Teste de API - Busca CEP",
-    "description": "Collection para testar a API 'Busca CEP'.",
+    "name": "Desafio Santander - Busca CEP",
+    "description": "Collection para a API 'Busca CEP'.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
