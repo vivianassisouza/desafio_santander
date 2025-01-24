@@ -81,17 +81,17 @@ mvn test
 Para rodar testes apenas do código de negócio:
 ```bash
 mvn -Dtest=com/nttdata/teste_santander/codigo/* test
-```text
+```
 
 Para rodar testes apenas de API:
 ```bash
-mvn -Dtest=com/nttdata/teste_santander/api/*
-```text
+mvn -Dtest=com/nttdata/teste_santander/api/* test
+```
 
 Para rodar testes apenas do front-end:
 ```bash
 mvn -Dtest=com/nttdata/teste_santander/web/* test
-```text
+```
 ---
 
 ## **Pontos de Validação**
